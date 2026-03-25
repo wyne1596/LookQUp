@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #f0ebd8;
+  color: #1a1a2e;
+}
+
+h1, h2, h3, .display-font {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+/* Smooth scrollbar */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Status badge styles */
+.status-available {
+  background: #d1fae5;
+  color: #065f46;
+}
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+.status-claimed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+/* Card hover animation */
+.item-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.item-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+}
+
+/* Carousel */
+.carousel-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* FAQ animation */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.faq-answer.open {
+  max-height: 200px;
+}
+
+/* Custom amber button */
+.btn-amber {
+  background: #f4a300;
+  color: white;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-amber:hover {
+  background: #e09200;
+  transform: translateY(-1px);
+}
+
+/* Navy button */
+.btn-navy {
+  background: #6c7a89;
+  color: white;
+  transition: background 0.2s;
+}
+.btn-navy:hover {
+  background: #4a5a68;
+}
+
+/* Image upload preview */
+.upload-zone {
+  border: 2px dashed #6c7a89;
+  transition: border-color 0.2s, background 0.2s;
+}
+.upload-zone:hover, .upload-zone.dragging {
+  border-color: #f4a300;
+  background: #fef9ee;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeSlideUp {
+  animation: fadeSlideUp 0.55s ease forwards;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.pulse-dot {
+  animation: pulse-dot 1.5s infinite;
+}
