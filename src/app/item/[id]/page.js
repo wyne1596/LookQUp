@@ -134,8 +134,23 @@ export default function ItemDetailPage() {
                   <h1 className="text-3xl md:text-4xl text-[#1a1a2e] mb-4" style={{ fontFamily: 'Bebas Neue, sans-serif' }}>
                     {item.title}
                   </h1>
-
-                  {item.description && (
+              
+              {item.status === 'claimed' && item.claimed_at && (() => {
+               const claimedDate = new Date(item.claimed_at);
+               const deleteDate = new Date(claimedDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+               const daysLeft = Math.ceil((deleteDate - new Date()) / (1000 * 60 * 60 * 24));
+               if (daysLeft > 2) return null;
+               return (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 flex items-center gap-2">
+                  <span className="text-lg">⚠️</span>
+                  <p className="text-sm text-red-700 font-semibold">
+        This post will be automatically deleted in {daysLeft} day{daysLeft !== 1 ? 's' : ''}.
+                  </p>
+                </div>
+              );
+            })()}
+              
+              {item.description && (
                     <p className="text-gray-600 text-sm leading-relaxed mb-5">{item.description}</p>
                   )}
 

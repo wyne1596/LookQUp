@@ -122,7 +122,10 @@ export default function ManagePage() {
       if (action === 'accepted') {
         // Reject all other claims
         await supabase.from('claims').update({ status: 'rejected' }).eq('item_id', item.id).neq('id', claimId);
-        await supabase.from('items').update({ status: 'claimed' }).eq('id', item.id);
+        await supabase.from('items').update({ 
+          status: 'claimed',
+          claimed_at: new Date().toISOString()
+          }).eq('id', item.id);
         setItem(prev => ({ ...prev, status: 'claimed' }));
       } else if (action === 'rejected') {
         // Check if any claims are still pending
@@ -231,6 +234,27 @@ export default function ManagePage() {
             </div>
           </div>
 
+          {/* Deletion warning */}
+          {item.status === 'claimed' && item.claimed_at && (() => {
+            const claimedDate = new Date(item.claimed_at);
+            const deleteDate = new Date(claimedDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const daysLeft = Math.ceil((deleteDate - new Date()) / (1000 * 60 * 60 * 24));
+            if (daysLeft > 2) return null;
+            return (
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-4 mb-4 flex items-center gap-3">
+                <span className="text-2xl">⚠️</span>
+                <div>
+                  <p className="text-sm font-bold text-red-700">
+                    This post deletes in {daysLeft} day{daysLeft !== 1 ? 's' : ''}
+                  </p>
+                  <p className="text-xs text-red-500 mt-0.5">
+          Claimed posts are automatically removed after 7 days.
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
+  
           {/* Action message */}
           {actionMsg && (
             <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium mb-4 text-center animate-fadeSlideUp">
